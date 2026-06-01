@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargirlshop | فروشگاه فری فایر</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Vazirmatn:wght@300;400;600;700;900&family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCQCdyn7GmoTUuRnNorODdLaw3eChFR3rk",
+  authDomain: "starshop-24425.firebaseapp.com",
+  databaseURL: "https://starshop-24425-default-rtdb.firebaseio.com",
+  projectId: "starshop-24425",
+  storageBucket: "starshop-24425.firebasestorage.app",
+  messagingSenderId: "541009197403",
+  appId: "1:541009197403:web:bcf26a06fec1e1541ac27e"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+</script>
+<style>
+  :root {
+    --pink:#FF69B4;--pink2:#FF1493;--purple:#C471ED;--purple2:#9B59B6;
+    --lavender:#E8B4FF;--gold:#FFD700;--dark:#0D0810;--dark2:#150D1E;
+    --card:#1A0F28;--card2:#200D2E;--text:#F5E8FF;--muted:#A080C0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Vazirmatn',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;
+    cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='4' fill='%23FF69B4' opacity='.95'/%3E%3Ccircle cx='14' cy='14' r='9' fill='none' stroke='%23C471ED' stroke-width='1.5' opacity='.7'/%3E%3C/svg%3E") 14 14,crosshair}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(ellipse 70% 60% at 15% 20%,rgba(196,113,237,.12) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 80%,rgba(255,105,180,.1) 0%,transparent 60%);
+    animation:bgP 8s ease-in-out infinite alternate}
+  @keyframes bgP{from{opacity:.7}to{opacity:1}}
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:linear-gradient(rgba(255,105,180,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(196,113,237,.03) 1px,transparent 1px);
+    background-size:45px 45px}
+  .particles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+  .particle{position:absolute;animation:floatP linear infinite;opacity:0;filter:drop-shadow(0 0 6px rgba(255,105,180,.8))}
+  @keyframes floatP{0%{transform:translateY(110vh) rotate(0deg);opacity:0}5%{opacity:1}90%{opacity:.8}100%{transform:translateY(-60px) rotate(360deg);opacity:0}}
+  nav{position:fixed;top:0;width:100%;z-index:100;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,8,16,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,113,237,.2);box-shadow:0 4px 40px rgba(255,105,180,.08)}
+  .logo{font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--pink),var(--purple),var(--lavender));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:logoS 4s ease-in-out infinite}
+  @keyframes logoS{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .logo span{font-size:.62rem;display:block;color:var(--pink);-webkit-text-fill-color:var(--pink);font-family:'Comfortaa',sans-serif;font-weight:300;letter-spacing:5px;text-align:center;margin-top:-3px}
+  .nav-links{display:flex;gap:28px;list-style:none;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:600;transition:all .3s;position:relative;padding-bottom:4px}
+  .nav-links a::after{content:'';position:absolute;bottom:0;right:0;width:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--pink));transition:width .3s}
+  .nav-links a:hover{color:var(--pink)}.nav-links a:hover::after{width:100%}
+  .nav-cta{background:linear-gradient(135deg,var(--pink2),var(--purple))!important;color:white!important;padding:8px 20px;border-radius:20px;font-weight:700!important;box-shadow:0 0 20px rgba(255,20,147,.35);transition:all .3s!important}
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(255,20,147,.6)!important}
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;padding:100px 40px 60px;text-align:center;overflow:hidden}
+  .hero-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;pointer-events:none}
+  .ring{position:absolute;border-radius:50%;border:1px solid rgba(196,113,237,.15);top:50%;left:50%;transform:translate(-50%,-50%);animation:rotS linear infinite}
+  .ring:nth-child(1){width:300px;height:300px;animation-duration:20s;border-color:rgba(255,105,180,.18)}
+  .ring:nth-child(2){width:450px;height:450px;animation-duration:30s;animation-direction:reverse}
+  .ring:nth-child(3){width:600px;height:600px;animation-duration:45s;border-color:rgba(196,113,237,.1)}
+  .ring::before{content:'✦';position:absolute;top:-8px;left:50%;transform:translateX(-50%);color:var(--pink);font-size:14px;filter:drop-shadow(0 0 8px var(--pink))}
+  @keyframes rotS{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+  .hero-bg-text{position:absolute;font-family:'Orbitron',sans-serif;font-size:22vw;font-weight:900;color:rgba(196,113,237,.03);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none}
+  .hero-content{position:relative;z-index:2;max-width:800px}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,105,180,.12);border:1px solid rgba(255,105,180,.35);border-radius:20px;padding:6px 18px;font-size:.78rem;font-weight:600;color:var(--pink);margin-bottom:25px;animation:bPulse 2.5s infinite}
+  @keyframes bPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,105,180,.3)}50%{box-shadow:0 0 0 8px rgba(255,105,180,0)}}
+  .badge-dot{width:7px;height:7px;border-radius:50%;background:var(--pink);animation:blink 1.5s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,6vw,4.2rem);font-weight:900;line-height:1.1;margin-bottom:18px;background:linear-gradient(135deg,#fff 0%,var(--lavender) 30%,var(--pink) 60%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:tS 4s ease-in-out infinite}
+  @keyframes tS{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .hero p{font-size:1.05rem;color:var(--muted);max-width:520px;margin:0 auto 38px;line-height:1.8}
+  .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn-primary{background:linear-gradient(135deg,var(--pink2),var(--purple2));color:white;padding:14px 32px;border-radius:25px;font-weight:700;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .3s;box-shadow:0 0 30px rgba(255,20,147,.4);border:none;cursor:pointer;font-family:'Vazirmatn',sans-serif}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(255,20,147,.65)}
+  .btn-secondary{background:transparent;color:var(--lavender);padding:14px 32px;border-radius:25px;font-weight:700;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .3s;border:1px solid rgba(232,180,255,.35);cursor:pointer;font-family:'Vazirmatn',sans-serif}
+  .btn-secondary:hover{background:rgba(232,180,255,.08);border-color:var(--lavender);transform:translateY(-3px)}
+  .stats-bar{position:relative;z-index:2;background:rgba(196,113,237,.05);border-top:1px solid rgba(196,113,237,.15);border-bottom:1px solid rgba(196,113,237,.15);padding:25px 40px;display:flex;justify-content:center;gap:70px;flex-wrap:wrap}
+  .stat-item{text-align:center;animation:fadeUp .8s ease forwards;opacity:0}
+  .stat-item:nth-child(1){animation-delay:.1s}.stat-item:nth-child(2){animation-delay:.2s}.stat-item:nth-child(3){animation-delay:.3s}.stat-item:nth-child(4){animation-delay:.4s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .stat-num{font-family:'Orbitron',sans-serif;font-size:1.7rem;font-weight:900;color:var(--pink);display:block;animation:gPink 2s ease-in-out infinite alternate}
+  @keyframes gPink{from{text-shadow:0 0 10px rgba(255,105,180,.3)}to{text-shadow:0 0 30px rgba(255,105,180,.9),0 0 50px rgba(196,113,237,.4)}}
+  .stat-label{font-size:.78rem;color:var(--muted);margin-top:4px}
+  .divider{position:relative;z-index:2;height:1px;background:linear-gradient(90deg,transparent,rgba(196,113,237,.3),rgba(255,105,180,.3),transparent);margin:0 40px}
+  section{position:relative;z-index:2;padding:80px 40px;max-width:1200px;margin:0 auto}
+  .section-header{text-align:center;margin-bottom:55px}
+  .section-tag{display:inline-block;background:rgba(255,105,180,.1);border:1px solid rgba(255,105,180,.3);color:var(--pink);font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 15px;border-radius:20px;margin-bottom:14px}
+  .section-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,4vw,2.6rem);font-weight:900;color:white;margin-bottom:10px}
+  .section-title span{background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .section-desc{color:var(--muted);font-size:.92rem;max-width:480px;margin:0 auto;line-height:1.7}
+  /* GEMS */
+  .gems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
+  .gem-card{position:relative;background:var(--card);border:1px solid rgba(196,113,237,.15);border-radius:24px;padding:40px 25px 30px;text-align:center;overflow:hidden;transition:all .4s;animation:fadeUp .8s ease forwards;opacity:0}
+  .gem-card:nth-child(1){animation-delay:.1s}.gem-card:nth-child(2){animation-delay:.3s}
+  .gem-card::after{content:'✦';position:absolute;top:15px;left:18px;color:rgba(255,105,180,.3);font-size:16px;animation:twink 2s ease-in-out infinite}
+  @keyframes twink{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+  .gem-card.unavailable{cursor:default;opacity:.7;filter:grayscale(.5)}
+  .gem-card.unavailable:hover{transform:none;box-shadow:none;border-color:rgba(196,113,237,.15)}
+  .gem-card.available{cursor:pointer}.gem-card.available:hover{transform:translateY(-10px);border-color:rgba(255,105,180,.5);box-shadow:0 25px 60px rgba(255,20,147,.2)}
+  .gem-card.popular{border-color:rgba(255,20,147,.4);background:linear-gradient(160deg,#1A0F28,#250A32)}
+  .popular-badge{position:absolute;top:0;left:50%;transform:translateX(-50%);background:rgba(80,80,80,.6);color:white;font-size:.68rem;font-weight:800;padding:5px 22px;border-radius:0 0 12px 12px;letter-spacing:2px}
+  .gem-card.available .popular-badge{background:linear-gradient(135deg,var(--pink2),var(--purple2));box-shadow:0 4px 15px rgba(255,20,147,.4)}
+  .unavail-tag{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;background:rgba(255,60,60,.12);border:1px solid rgba(255,80,80,.35);color:#FF7878;font-size:.75rem;font-weight:800;padding:5px 16px;border-radius:20px;letter-spacing:1px;animation:uP 2s ease-in-out infinite}
+  @keyframes uP{0%,100%{box-shadow:0 0 0 0 rgba(255,80,80,.3)}50%{box-shadow:0 0 0 7px rgba(255,80,80,0)}}
+  .unavail-dot{width:7px;height:7px;border-radius:50%;background:#FF7878;animation:blink 1.2s infinite}
+  .gem-icon{font-size:4rem;margin-bottom:14px;display:block;animation:float 3s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .gem-amount{font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:900;display:block}
+  .gem-card.available .gem-amount{color:var(--pink)}
+  .gem-card.unavailable .gem-amount{color:var(--muted)}
+  .gem-label{color:var(--muted);font-size:.82rem;margin:5px 0 18px}
+  .gem-price{font-size:2rem;font-weight:900;display:block;margin-bottom:4px}
+  .gem-card.available .gem-price{color:white}.gem-card.unavailable .gem-price{color:var(--muted)}
+  .gem-price span{font-size:.95rem;font-weight:600}
+  .gem-card.available .gem-price span{color:var(--pink)}.gem-card.unavailable .gem-price span{color:var(--muted)}
+  .gem-per{font-size:.72rem;color:var(--muted);margin-bottom:22px}
+  .gem-features{list-style:none;margin-bottom:24px;text-align:right}
+  .gem-features li{font-size:.83rem;color:var(--muted);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:8px;justify-content:flex-end}
+  .gem-features li::before{content:'♡';color:rgba(255,105,180,.4);font-size:.9rem}
+  .gem-card.available .gem-features li::before{color:var(--pink)}
+  .btn-buy{width:100%;background:linear-gradient(135deg,var(--pink2),var(--purple2));color:white;padding:13px;border-radius:20px;font-weight:800;font-size:.95rem;border:none;cursor:pointer;transition:all .3s;font-family:'Vazirmatn',sans-serif;box-shadow:0 4px 20px rgba(255,20,147,.3)}
+  .btn-buy:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,20,147,.6)}
+  .btn-buy-ghost{width:100%;background:transparent;color:var(--lavender);padding:13px;border-radius:20px;font-weight:800;font-size:.95rem;border:1px solid rgba(232,180,255,.35);cursor:pointer;transition:all .3s;font-family:'Vazirmatn',sans-serif}
+  .btn-buy-ghost:hover{background:rgba(232,180,255,.08);border-color:var(--lavender);transform:translateY(-2px)}
+  .btn-unavail{width:100%;background:rgba(80,80,80,.3);color:rgba(255,255,255,.35);padding:13px;border-radius:20px;font-weight:800;font-size:.95rem;border:1px solid rgba(255,255,255,.1);cursor:not-allowed;font-family:'Vazirmatn',sans-serif}
+  /* NOTIFY */
+  .notify-box{margin-top:35px;background:rgba(196,113,237,.07);border:1.5px dashed rgba(196,113,237,.3);border-radius:22px;padding:32px 30px;text-align:center;position:relative;overflow:hidden;animation:fadeUp .8s ease forwards;opacity:0;animation-delay:.5s}
+  .notify-box::before{content:'';position:absolute;inset:0;border-radius:22px;background:linear-gradient(135deg,rgba(255,105,180,.03),rgba(196,113,237,.05))}
+  .bell-wrap{position:relative;display:inline-block;margin-bottom:12px}
+  .bell-icon{font-size:3rem;display:block;animation:bellR 3s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,105,180,.7))}
+  @keyframes bellR{0%,100%{transform:rotate(0)}8%{transform:rotate(16deg)}16%{transform:rotate(-14deg)}24%{transform:rotate(12deg)}32%{transform:rotate(-8deg)}40%{transform:rotate(5deg)}48%,100%{transform:rotate(0)}}
+  .bell-pulse{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:55px;height:55px;border-radius:50%;background:rgba(255,105,180,.15);animation:bellP 3s ease-in-out infinite}
+  @keyframes bellP{0%{transform:translate(-50%,-50%) scale(.8);opacity:.8}100%{transform:translate(-50%,-50%) scale(2);opacity:0}}
+  .notify-title{font-weight:800;font-size:1.1rem;color:white;margin-bottom:7px;position:relative}
+  .notify-desc{font-size:.83rem;color:var(--muted);margin-bottom:20px;line-height:1.7;position:relative}
+  .notify-form{display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap;justify-content:center;position:relative}
+  .notify-input{flex:1;min-width:180px;background:rgba(255,255,255,.05);border:1px solid rgba(196,113,237,.3);border-radius:20px;padding:11px 18px;color:white;font-size:.85rem;font-family:'Vazirmatn',sans-serif;outline:none;transition:border-color .3s;direction:ltr}
+  .notify-input::placeholder{color:var(--muted)}
+  .notify-input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,105,180,.1)}
+  .btn-notify{background:linear-gradient(135deg,var(--pink2),var(--purple2));color:white;padding:11px 22px;border-radius:20px;font-weight:800;font-size:.85rem;border:none;cursor:pointer;transition:all .3s;font-family:'Vazirmatn',sans-serif;box-shadow:0 4px 18px rgba(255,20,147,.35);white-space:nowrap;display:flex;align-items:center;gap:6px}
+  .btn-notify:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(255,20,147,.55)}
+  .notify-success{display:none;align-items:center;justify-content:center;gap:8px;color:#7FE07F;font-size:.88rem;font-weight:700;margin-top:14px;position:relative}
+  .notify-success.show{display:flex;animation:fadeUp .4s ease}
+  /* VPN PACKS */
+  .vpn-pack-section{margin-bottom:30px}
+  .pack-header{display:flex;align-items:center;gap:12px;padding:14px 20px;background:rgba(196,113,237,.06);border:1px solid rgba(196,113,237,.2);border-radius:14px;margin-bottom:16px}
+  .pack-header-icon{font-size:1.8rem;filter:drop-shadow(0 0 10px rgba(255,105,180,.5))}
+  .pack-header-title{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:900;color:var(--lavender)}
+  .pack-header-desc{font-size:.78rem;color:var(--muted);margin-top:2px}
+  .vpn-packs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .vpn-pack-card{background:var(--card);border:1px solid rgba(196,113,237,.15);border-radius:18px;padding:22px 20px;transition:all .4s;cursor:pointer;position:relative;overflow:hidden;animation:fadeUp .7s ease forwards;opacity:0}
+  .vpn-pack-card:nth-child(1){animation-delay:.1s}.vpn-pack-card:nth-child(2){animation-delay:.2s}.vpn-pack-card:nth-child(3){animation-delay:.3s}
+  .vpn-pack-card:hover{transform:translateY(-6px);border-color:rgba(196,113,237,.4);box-shadow:0 15px 40px rgba(196,113,237,.15)}
+  .vpn-pack-card.popular-pack{border-color:rgba(255,105,180,.3);background:linear-gradient(160deg,#1A0F28,#250A32)}
+  .vpn-pack-card.gaming-pack:hover{border-color:rgba(255,20,147,.4);box-shadow:0 15px 40px rgba(255,20,147,.15)}
+  .vpn-pack-card.proxy-pack:hover{border-color:rgba(0,210,255,.35);box-shadow:0 15px 40px rgba(0,210,255,.1)}
+  .vpc-badge{position:absolute;top:0;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--pink2),var(--purple2));color:white;font-size:.65rem;font-weight:800;padding:4px 18px;border-radius:0 0 10px 10px;letter-spacing:1px}
+  .vpc-top{display:flex;align-items:center;gap:10px;margin-bottom:14px;margin-top:10px}
+  .vpc-vol{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;color:var(--lavender)}
+  .vpc-type{background:rgba(196,113,237,.12);border:1px solid rgba(196,113,237,.25);color:var(--lavender);font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:1px}
+  .vpc-price-row{margin-bottom:18px}
+  .vpc-price{font-size:1.2rem;font-weight:900;color:white}
+  .btn-vpc{width:100%;background:linear-gradient(135deg,var(--purple2),#7B2FBE);color:white;padding:11px;border-radius:14px;font-weight:800;font-size:.88rem;border:none;cursor:pointer;transition:all .3s;font-family:'Vazirmatn',sans-serif;box-shadow:0 4px 15px rgba(155,89,182,.3)}
+  .btn-vpc:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(155,89,182,.5)}
+  /* WHY */
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px}
+  .why-card{background:var(--card);border:1px solid rgba(196,113,237,.1);border-radius:20px;padding:30px 20px;text-align:center;transition:all .4s;animation:fadeUp .8s ease forwards;opacity:0;position:relative;overflow:hidden}
+  .why-card::before{content:'';position:absolute;top:-30px;right:-30px;width:80px;height:80px;background:radial-gradient(circle,rgba(255,105,180,.1),transparent);border-radius:50%}
+  .why-card:hover{border-color:rgba(255,105,180,.4);transform:translateY(-6px);box-shadow:0 12px 35px rgba(255,20,147,.12)}
+  .why-icon{font-size:2.4rem;display:block;margin-bottom:14px}
+  .why-title{font-weight:800;color:white;margin-bottom:8px;font-size:.95rem}
+  .why-desc{font-size:.78rem;color:var(--muted);line-height:1.6}
+  /* CONTACT */
+  .contact-box{background:linear-gradient(135deg,rgba(26,15,40,.95),rgba(30,16,48,.95));border:1px solid rgba(255,105,180,.2);border-radius:28px;padding:60px 40px;position:relative;overflow:hidden;text-align:center}
+  .contact-box::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,.07),transparent 70%);pointer-events:none}
+  .heart-float{position:absolute;font-size:1.5rem;animation:hR 6s ease-in-out infinite;opacity:0;pointer-events:none}
+  .heart-float:nth-child(1){left:10%;animation-delay:0s}.heart-float:nth-child(2){left:25%;animation-delay:1.5s}.heart-float:nth-child(3){left:75%;animation-delay:3s}.heart-float:nth-child(4){left:88%;animation-delay:4.5s}
+  @keyframes hR{0%{opacity:0;transform:translateY(60px) scale(.5)}20%{opacity:.6}80%{opacity:.4}100%{opacity:0;transform:translateY(-40px) scale(1.2)}}
+  .contact-channels{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:35px;position:relative;z-index:1}
+  .channel-btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:25px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .3s;font-family:'Vazirmatn',sans-serif;cursor:pointer;border:none}
+  .channel-telegram{background:linear-gradient(135deg,#0088cc,#005f99);color:white;box-shadow:0 4px 20px rgba(0,136,204,.35)}
+  .channel-telegram:hover{transform:translateY(-3px);box-shadow:0 8px 35px rgba(0,136,204,.55)}
+  footer{position:relative;z-index:2;background:rgba(0,0,0,.5);border-top:1px solid rgba(196,113,237,.1);padding:35px 40px 25px;text-align:center}
+  .footer-logo{font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+  .footer-text{color:var(--muted);font-size:.8rem;margin-bottom:6px}
+  .footer-copy{color:rgba(160,128,192,.4);font-size:.72rem;margin-bottom:10px}
+  .footer-devner{margin-top:10px;font-size:.72rem;color:rgba(160,128,192,.5)}
+  .footer-devner a{color:rgba(255,105,180,.6);text-decoration:none;font-weight:700;transition:color .3s}
+  .footer-devner a:hover{color:var(--pink)}
+  .scroll-top{position:fixed;bottom:28px;left:28px;width:44px;height:44px;background:linear-gradient(135deg,var(--pink2),var(--purple2));border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;box-shadow:0 4px 20px rgba(255,20,147,.4);transition:all .3s;font-size:1.1rem;opacity:0;border:none;color:white}
+  .scroll-top.visible{opacity:1}
+  .scroll-top:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(255,20,147,.65)}
+  /* CHAT */
+  .chat-widget{position:fixed;bottom:28px;right:28px;z-index:200}
+  .chat-fab{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--pink2),var(--purple2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 25px rgba(255,20,147,.5);transition:all .3s;animation:fabP 3s ease-in-out infinite;position:relative}
+  @keyframes fabP{0%,100%{box-shadow:0 4px 25px rgba(255,20,147,.5)}50%{box-shadow:0 4px 35px rgba(255,20,147,.8),0 0 0 10px rgba(255,20,147,.08)}}
+  .chat-fab:hover{transform:scale(1.1)}
+  .chat-fab-badge{position:absolute;top:-3px;right:-3px;width:18px;height:18px;background:#4ADE80;border-radius:50%;font-size:.6rem;font-weight:800;color:#0A1F0A;display:none;align-items:center;justify-content:center;border:2px solid var(--dark);animation:blink 1.5s infinite}
+  .chat-fab-badge.show{display:flex}
+  .chat-box{position:absolute;bottom:70px;right:0;width:330px;background:var(--card);border:1px solid rgba(255,105,180,.25);border-radius:22px;overflow:hidden;box-shadow:0 20px 60px rgba(255,20,147,.2);display:none;flex-direction:column;animation:panIn .3s cubic-bezier(.34,1.56,.64,1);transform-origin:bottom right;max-height:500px}
+  .chat-box.open{display:flex}
+  @keyframes panIn{from{opacity:0;transform:scale(.85) translateY(15px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  .chat-head{background:linear-gradient(135deg,var(--pink2),var(--purple2));padding:16px 18px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+  .ch-av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+  .ch-info{flex:1}.ch-name{font-weight:800;font-size:.9rem;color:white}
+  .ch-status{font-size:.7rem;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:4px}
+  .ch-dot{width:6px;height:6px;border-radius:50%;background:#7FE07F;animation:blink 1.5s infinite;display:inline-block}
+  .ch-close{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.2rem;cursor:pointer;padding:2px 6px;transition:color .2s}
+  .ch-close:hover{color:white}
+  .chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;min-height:160px;max-height:280px;scrollbar-width:thin;scrollbar-color:rgba(255,105,180,.3) transparent}
+  .chat-msgs::-webkit-scrollbar{width:3px}.chat-msgs::-webkit-scrollbar-thumb{background:rgba(255,105,180,.3);border-radius:2px}
+  .msg-b{max-width:84%;padding:9px 13px;border-radius:13px;font-size:.82rem;line-height:1.5;animation:msgIn .22s ease}
+  @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .msg-user{background:linear-gradient(135deg,rgba(255,20,147,.2),rgba(196,113,237,.2));border:1px solid rgba(255,105,180,.2);color:var(--text);align-self:flex-end;border-radius:13px 13px 4px 13px}
+  .msg-bot,.msg-admin{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);color:var(--text);align-self:flex-start;border-radius:13px 13px 13px 4px}
+  .msg-who{font-size:.67rem;font-weight:700;display:block;margin-bottom:2px}
+  .msg-bot .msg-who{color:#A78BFA}.msg-admin .msg-who{color:var(--pink)}
+  .msg-time{font-size:.63rem;color:var(--muted);margin-top:2px;text-align:right}
+  .msg-user .msg-time{text-align:right}.msg-bot .msg-time,.msg-admin .msg-time{text-align:left}
+  .faq-grid{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+  .faq-btn{background:rgba(196,113,237,.1);border:1px solid rgba(196,113,237,.2);color:var(--text);padding:7px 11px;border-radius:9px;font-size:.77rem;cursor:pointer;font-family:'Vazirmatn',sans-serif;text-align:right;transition:all .2s}
+  .faq-btn:hover{background:rgba(255,105,180,.15);border-color:var(--pink)}
+  .chat-mode-switch{display:flex;gap:7px;justify-content:center;padding:8px 14px;border-top:1px solid rgba(255,255,255,.05);flex-shrink:0}
+  .mode-btn{flex:1;padding:7px;border-radius:10px;font-size:.76rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Vazirmatn',sans-serif;border:1px solid transparent}
+  .mode-btn.active-mode{background:rgba(255,20,147,.15);border-color:rgba(255,20,147,.35);color:var(--pink)}
+  .mode-btn.inactive-mode{background:rgba(255,255,255,.04);color:var(--muted)}
+  .mode-btn:hover{background:rgba(255,105,180,.1)}
+  .chat-input-area{padding:10px 13px;border-top:1px solid rgba(255,255,255,.05);display:none;flex-direction:column;gap:7px;flex-shrink:0}
+  .chat-input-area.show{display:flex}
+  .chat-name-in{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(196,113,237,.25);border-radius:10px;padding:8px 12px;color:white;font-size:.8rem;font-family:'Vazirmatn',sans-serif;outline:none;transition:border .3s}
+  .chat-name-in:focus{border-color:var(--pink)}
+  .chat-name-in::placeholder{color:var(--muted)}
+  .chat-row{display:flex;gap:7px;align-items:flex-end}
+  .chat-txt-in{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(196,113,237,.25);border-radius:11px;padding:9px 12px;color:white;font-size:.82rem;font-family:'Vazirmatn',sans-serif;outline:none;resize:none;transition:border .3s;max-height:75px;min-height:38px}
+  .chat-txt-in:focus{border-color:var(--pink)}
+  .chat-txt-in::placeholder{color:var(--muted)}
+  .chat-send{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--pink2),var(--purple2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .3s;box-shadow:0 3px 12px rgba(255,20,147,.35)}
+  .chat-send:hover{transform:scale(1.1)}
+  /* MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+  .modal-overlay.active{display:flex}
+  .modal{background:var(--card);border:1px solid rgba(255,105,180,.3);border-radius:24px;padding:40px;max-width:430px;width:90%;position:relative;text-align:center;animation:mIn .3s ease;box-shadow:0 0 70px rgba(255,20,147,.2)}
+  @keyframes mIn{from{opacity:0;transform:scale(.88) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  .modal-close{position:absolute;top:14px;left:14px;background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;transition:color .2s;line-height:1}
+  .modal-close:hover{color:var(--pink)}
+  .modal h3{font-family:'Orbitron',sans-serif;font-size:1.2rem;color:white;margin-bottom:10px}
+  .modal p{color:var(--muted);font-size:.88rem;margin-bottom:22px;line-height:1.6}
+  .modal-price{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;color:var(--pink);text-shadow:0 0 20px rgba(255,105,180,.5);margin-bottom:8px}
+  .modal-steps{background:rgba(255,105,180,.05);border:1px solid rgba(255,105,180,.15);border-radius:12px;padding:18px;margin-bottom:18px;text-align:right}
+  .modal-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:.83rem;color:var(--text);flex-direction:row-reverse}
+  .modal-step:last-child{margin-bottom:0}
+  .step-num{width:22px;height:22px;background:linear-gradient(135deg,var(--pink2),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;flex-shrink:0}
+  @media(max-width:768px){nav{padding:12px 18px}.nav-links{display:none}section{padding:55px 18px}.stats-bar{gap:25px;padding:18px}.hero{padding:80px 18px 40px}.contact-box{padding:35px 18px}.hero-rings{width:300px;height:300px}}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<nav>
+  <div class="logo">STARGIRLSHOP<span>FREE FIRE STORE ✦</span></div>
+  <ul class="nav-links">
+    <li><a href="#gems">💎 جم فروشی</a></li>
+    <li><a href="#vpn">🌸 VPN Gaming</a></li>
+    <li><a href="#contact" class="nav-cta">💌 سفارش</a></li>
+  </ul>
+</nav>
+<div class="hero">
+  <div class="hero-bg-text">FF</div>
+  <div class="hero-rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span><span id="heroBadgeText">آنلاین و فعال | تحویل فوری 💫</span></div>
+    <h1>STARGIRLSHOP<br>فروشگاه فری فایر</h1>
+    <p id="heroSubText">بهترین قیمت، سریع‌ترین تحویل — جم فری فایر و VPN گیمینگ با کیفیت بالا ✨</p>
+    <div class="hero-btns">
+      <a href="#gems" class="btn-primary">💎 خرید جم</a>
+      <a href="#vpn" class="btn-secondary">🌐 VPN Gaming</a>
+    </div>
+  </div>
+</div>
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-num">۵۰۰+</span><div class="stat-label">مشتری راضی 💕</div></div>
+  <div class="stat-item"><span class="stat-num">۲۴/۷</span><div class="stat-label">پشتیبانی آنلاین</div></div>
+  <div class="stat-item"><span class="stat-num">۱۰۰٪</span><div class="stat-label">تضمین تحویل ✓</div></div>
+  <div class="stat-item"><span class="stat-num">فوری</span><div class="stat-label">ارسال آنی ⚡</div></div>
+</div>
+<div class="divider"></div>
+<!-- GEMS -->
+<section id="gems">
+  <div class="section-header">
+    <div class="section-tag">💎 جم فروشی</div>
+    <h2 class="section-title">خرید <span>جم فری فایر</span></h2>
+    <p class="section-desc" id="gemSectionDesc">لطفاً صبر کنید...</p>
+  </div>
+  <div class="gems-grid" id="gemsGrid">
+    <div class="gem-card unavailable">
+      <span class="gem-icon" style="filter:grayscale(.6)">💎</span>
+      <div class="unavail-tag"><span class="unavail-dot"></span>در حال بارگزاری...</div>
+      <span class="gem-amount">۱۰۰</span>
+      <div class="gem-label">الماس (جم)</div>
+      <span class="gem-price">—<span> تومان</span></span>
+      <div class="gem-per"></div>
+      <ul class="gem-features"><li>تحویل آنی</li><li>بدون نیاز به پسورد</li><li>تضمین ۱۰۰٪</li></ul>
+      <button class="btn-unavail" disabled>⏳ در حال بارگزاری</button>
+    </div>
+    <div class="gem-card popular unavailable">
+      <div class="popular-badge">✦ پرفروش‌ترین</div>
+      <span class="gem-icon" style="filter:grayscale(.6);animation-delay:.5s">💎</span>
+      <div class="unavail-tag"><span class="unavail-dot"></span>در حال بارگزاری...</div>
+      <span class="gem-amount">۲۰۰</span>
+      <div class="gem-label">الماس (جم)</div>
+      <span class="gem-price">—<span> تومان</span></span>
+      <div class="gem-per"></div>
+      <ul class="gem-features"><li>تحویل آنی</li><li>بدون نیاز به پسورد</li><li>تضمین ۱۰۰٪</li><li>بهترین ارزش خرید</li></ul>
+      <button class="btn-unavail" disabled>⏳ در حال بارگزاری</button>
+    </div>
+  </div>
+  <div class="notify-box" id="notifyBox">
+    <div class="bell-wrap"><div class="bell-pulse"></div><span class="bell-icon">🔔</span></div>
+    <div class="notify-title">موجود شد بهم خبر بده! 💕</div>
+    <div class="notify-desc">آیدی تلگرام یا شماره‌ات رو بذار — وقتی جم‌ها موجود شدن بهت پیام می‌دم 🌸</div>
+    <div class="notify-form">
+      <input class="notify-input" id="notifyInput" type="text" placeholder="@username یا شماره تلگرام">
+      <button class="btn-notify" onclick="submitNotify()">🔔 ثبت کن</button>
+    </div>
+    <div class="notify-success" id="notifySuccess">✅ ثبت شد! به محض موجود شدن باهات تماس می‌گیریم 💖</div>
+  </div>
+</section>
+<div class="divider"></div>
+<!-- VPN -->
+<section id="vpn">
+  <div class="section-header">
+    <div class="section-tag" style="color:var(--lavender);border-color:rgba(232,180,255,.3);background:rgba(232,180,255,.07)">🌐 VPN Gaming</div>
+    <h2 class="section-title">کانفیگ <span>VPN گیمینگ</span></h2>
+    <p class="section-desc">بهترین VPN اختصاصی برای فری فایر — پینگ پایین، سرعت بالا 🚀</p>
+  </div>
+  <div class="vpn-pack-section">
+    <div class="pack-header"><span class="pack-header-icon">⭐</span><div><div class="pack-header-title">پک نرمال</div><div class="pack-header-desc">مناسب برای استفاده روزانه</div></div></div>
+    <div class="vpn-packs-grid">
+      <div class="vpn-pack-card" onclick="openModal('vpn_n5')"><div class="vpc-top"><span class="vpc-vol">5G</span><span class="vpc-type">Normal</span></div><div class="vpc-price-row"><span class="vpc-price" id="p_vn5">۱۷۵ تومان</span></div><button class="btn-vpc">سفارش 💌</button></div>
+      <div class="vpn-pack-card popular-pack" onclick="openModal('vpn_n10')"><div class="vpc-badge">پرفروش ✦</div><div class="vpc-top"><span class="vpc-vol">10G</span><span class="vpc-type">Normal</span></div><div class="vpc-price-row"><span class="vpc-price" id="p_vn10">۲۸۰ تومان</span></div><button class="btn-vpc">سفارش 💌</button></div>
+      <div class="vpn-pack-card" onclick="openModal('vpn_n20')"><div class="vpc-top"><span class="vpc-vol">20G</span><span class="vpc-type">Normal</span></div><div class="vpc-price-row"><span class="vpc-price" id="p_vn20">۴۰۰ تومان</span></div><button class="btn-vpc">سفارش 💌</button></div>
+    </div>
+  </div>
+  <div class="vpn-pack-section">
+    <div class="pack-header" style="border-color:rgba(255,20,147,.2);background:rgba(255,20,147,.05)"><span class="pack-header-icon">🎮</span><div><div class="pack-header-title" style="color:var(--pink)">پک گیمینگ</div><div class="pack-header-desc">بهینه برای فری فایر — پینگ پایین</div></div></div>
+    <div class="vpn-packs-grid">
+      <div class="vpn-pack-card gaming-pack" onclick="openModal('vpn_g10')"><div class="vpc-top"><span class="vpc-vol" style="color:var(--pink)">10G</span><span class="vpc-type" style="background:rgba(255,20,147,.15);color:var(--pink);border-color:rgba(255,20,147,.3)">Gaming</span></div><div class="vpc-price-row"><span class="vpc-price" id="p_vg10" style="font-size:1.5rem">۲۹۰ تومان</span></div><button class="btn-vpc" style="background:linear-gradient(135deg,var(--pink2),#a0106a)">سفارش 🎮</button></div>
+      <div class="vpn-pack-card gaming-pack" onclick="openModal('vpn_g20')"><div class="vpc-top"><span class="vpc-vol" style="color:var(--pink)">20G</span><span class="vpc-type" style="background:rgba(255,20,147,.15);color:var(--pink);border-color:rgba(255,20,147,.3)">Gaming</span></div><div class="vpc-price-row"><span class="vpc-price" id="p_vg20" style="font-size:1.5rem">۵۸۰ تومان</span></div><button class="btn-vpc" style="background:linear-gradient(135deg,var(--pink2),#a0106a)">سفارش 🎮</button></div>
+    </div>
+  </div>
+  <div class="vpn-pack-section">
+    <div class="pack-header" style="border-color:rgba(0,210,255,.2);background:rgba(0,210,255,.04)"><span class="pack-header-icon">🎧</span><div><div class="pack-header-title" style="color:#7DD3FC">پک پروکسی</div><div class="pack-header-desc">پروکسی پرسرعت برای همه کاربردها</div></div></div>
+    <div class="vpn-packs-grid">
+      <div class="vpn-pack-card proxy-pack" onclick="openModal('vpn_p5')"><div class="vpc-top"><span class="vpc-vol" style="color:#7DD3FC">5G</span><span class="vpc-type" style="background:rgba(0,210,255,.1);color:#7DD3FC;border-color:rgba(0,210,255,.25)">Proxy</span></div><div class="vpc-price-row"><span class="vpc-price" id="p_vp5" style="font-size:1.5rem">۱۸۰ تومان</span></div><button class="btn-vpc" style="background:linear-gradient(135deg,#0284C7,#075985)">سفارش 🎧</button></div>
+      <div class="vpn-pack-card proxy-pack" onclick="openModal('vpn_p10')"><div class="vpc-top"><span class="vpc-vol" style="color:#7DD3FC">10G</span><span class="vpc-type" style="background:rgba(0,210,255,.1);color:#7DD3FC;border-color:rgba(0,210,255,.25)">Proxy</span></div><div class="vpc-price-row"><span class="vpc-price" id="p_vp10" style="font-size:1.5rem">۳۰۰ تومان</span></div><button class="btn-vpc" style="background:linear-gradient(135deg,#0284C7,#075985)">سفارش 🎧</button></div>
+      <div class="vpn-pack-card proxy-pack" onclick="openModal('vpn_p15')"><div class="vpc-top"><span class="vpc-vol" style="color:#7DD3FC">15G</span><span class="vpc-type" style="background:rgba(0,210,255,.1);color:#7DD3FC;border-color:rgba(0,210,255,.25)">Proxy</span></div><div class="vpc-price-row"><span class="vpc-price" id="p_vp15" style="font-size:1.5rem">۴۰۰ تومان</span></div><button class="btn-vpc" style="background:linear-gradient(135deg,#0284C7,#075985)">سفارش 🎧</button></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+<section>
+  <div class="section-header"><div class="section-tag">✦ چرا ما؟</div><h2 class="section-title">مزایای <span>Stargirlshop</span></h2></div>
+  <div class="why-grid">
+    <div class="why-card" style="animation-delay:.1s"><span class="why-icon">⚡</span><div class="why-title">تحویل فوری</div><div class="why-desc">بلافاصله بعد از پرداخت، محصول به دستتون می‌رسه</div></div>
+    <div class="why-card" style="animation-delay:.2s"><span class="why-icon">🔒</span><div class="why-title">ایمن و مطمئن</div><div class="why-desc">بدون نیاز به پسورد، امنیت اکانت شما حفظ می‌شه</div></div>
+    <div class="why-card" style="animation-delay:.3s"><span class="why-icon">💰</span><div class="why-title">ارزان‌ترین قیمت</div><div class="why-desc">بهترین قیمت بازار با تضمین برگشت وجه در صورت مشکل</div></div>
+    <div class="why-card" style="animation-delay:.4s"><span class="why-icon">💕</span><div class="why-title">پشتیبانی ۲۴/۷</div><div class="why-desc">هر ساعتی از شبانه‌روز پاسخگوی سوالات شما هستیم</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+<section id="contact">
+  <div class="contact-box">
+    <span class="heart-float">💖</span><span class="heart-float">🌸</span><span class="heart-float">✨</span><span class="heart-float">💕</span>
+    <div style="position:relative;z-index:1">
+      <div class="section-tag">💌 سفارش</div>
+      <h2 class="section-title" style="margin-top:14px">آماده سفارش هستید؟ 🌸</h2>
+      <p class="section-desc" style="margin-top:10px">برای ثبت سفارش از طریق تلگرام با ما در تماس باشید 💬</p>
+      <div class="contact-channels">
+        <a href="https://t.me/THE_STARSHOP" target="_blank" class="channel-btn channel-telegram">✈️ تلگرام Stargirlshop</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="footer-logo">✦ STARGIRLSHOP ✦</div>
+  <div class="footer-text">فروشگاه تخصصی فری فایر | جم و VPN گیمینگ 💕</div>
+  <div class="footer-copy">© ۱۴۰۴ Stargirlshop — تمامی حقوق محفوظ است</div>
+  <div class="footer-devner">created by <a href="https://t.me/Devnerr" target="_blank">@Devnerr</a></div>
+</footer>
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-box" id="chatBox">
+    <div class="chat-head">
+      <div class="ch-av">🌸</div>
+      <div class="ch-info">
+        <div class="ch-name">پشتیبانی Stargirlshop</div>
+        <div class="ch-status"><span class="ch-dot"></span>آنلاین</div>
+      </div>
+      <button class="ch-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-mode-switch">
+      <button class="mode-btn active-mode" id="btnBot" onclick="setMode('bot')">🤖 دستیار هوشمند</button>
+      <button class="mode-btn inactive-mode" id="btnHuman" onclick="setMode('human')">💬 ادمین</button>
+    </div>
+    <div class="chat-input-area" id="chatInputArea">
+      <input class="chat-name-in" id="chatNameIn" placeholder="اسمت (اختیاری)" maxlength="30">
+      <div class="chat-row">
+        <textarea class="chat-txt-in" id="chatTxtIn" placeholder="پیامت رو بنویس..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"></textarea>
+        <button class="chat-send" onclick="sendMsg()">➤</button>
+      </div>
+    </div>
+  </div>
+  <button class="chat-fab" id="chatFab" onclick="toggleChat()">
+    💬
+    <div class="chat-fab-badge" id="chatBadge">!</div>
+  </button>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal"><button class="modal-close" onclick="closeModal()">✕</button><div id="modalBody"></div></div>
+</div>
+
+<script>
+// PARTICLES
+(function(){
+  const c=document.getElementById('particles');
+  const items=['💖','🌸','✨','💫','⭐','🌟','💕','✦','♡'];
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div');p.className='particle';
+    p.textContent=items[Math.floor(Math.random()*items.length)];
+    p.style.left=Math.random()*100+'vw';p.style.fontSize=(Math.random()*14+8)+'px';
+    p.style.animationDuration=(Math.random()*18+10)+'s';p.style.animationDelay=(Math.random()*15)+'s';
+    c.appendChild(p);
+  }
+})();
+window.addEventListener('scroll',()=>document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300));
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.style.animationPlayState='running';}),{threshold:.1});
+document.querySelectorAll('.gem-card,.why-card,.stat-item,.notify-box,.vpn-pack-card').forEach(el=>{el.style.animationPlayState='paused';obs.observe(el);});
+
+// ── FIREBASE SETTINGS LISTENER ──
+const settRef = db.ref('settings');
+settRef.on('value', snap => {
+  const d = snap.val() || {};
+  // gems
+  updateGemCard(0, d.gem100p||78, !!d.gem100a);
+  updateGemCard(1, d.gem200p||120, !!d.gem200a);
+  // vpn prices
+  const vmap = {vn5:175,vn10:280,vn20:400,vg10:290,vg20:580,vp5:180,vp10:300,vp15:400};
+  Object.keys(vmap).forEach(k=>{ const el=document.getElementById('p_'+k); if(el) el.textContent=(d[k]||vmap[k])+' تومان'; });
+  // site text
+  if(d.sBadge) document.getElementById('heroBadgeText').textContent=d.sBadge;
+  if(d.sHero)  document.getElementById('heroSubText').textContent=d.sHero;
+  // announce
+  const annBar = document.getElementById('announceBar');
+  if(d.sAnnAct && d.sAnn){
+    if(!annBar){ const b=document.createElement('div'); b.id='announceBar'; b.style.cssText='position:fixed;top:0;width:100%;background:linear-gradient(135deg,rgba(255,20,147,.9),rgba(196,113,237,.9));color:white;text-align:center;padding:8px;font-size:.82rem;font-weight:700;z-index:200;'; b.textContent='📢 '+d.sAnn; document.body.prepend(b); }
+    else annBar.textContent='📢 '+d.sAnn;
+  } else if(annBar) annBar.remove();
+});
+
+function updateGemCard(idx, price, available){
+  const cards = document.querySelectorAll('#gemsGrid .gem-card');
+  if(!cards[idx]) return;
+  const c = cards[idx];
+  const amts = [100, 200];
+  c.className = 'gem-card' + (idx===1?' popular':'') + (available?' available':' unavailable');
+  let inner = '';
+  if(idx===1) inner += '<div class="popular-badge">✦ پرفروش‌ترین</div>';
+  inner += `<span class="gem-icon" style="${available?'':'filter:grayscale(.6)'}${idx===1?';animation-delay:.5s':''}">💎</span>`;
+  if(!available) inner += '<div class="unavail-tag"><span class="unavail-dot"></span>ناموجود</div>';
+  inner += `<span class="gem-amount">${amts[idx]===100?'۱۰۰':'۲۰۰'}</span>
+    <div class="gem-label">الماس (جم)</div>
+    <span class="gem-price">${price}<span> تومان</span></span>
+    <div class="gem-per">هر جم = ${price} تومان</div>
+    <ul class="gem-features"><li>تحویل آنی</li><li>بدون نیاز به پسورد</li><li>تضمین ۱۰۰٪</li>${idx===1?'<li>بهترین ارزش خرید</li>':''}</ul>`;
+  if(available){
+    inner += `<button class="${idx===0?'btn-buy-ghost':'btn-buy'}" onclick="openModal('gem${amts[idx]}')">${idx===0?'🛒':'💖'} سفارش دهید</button>`;
+  } else {
+    inner += '<button class="btn-unavail" disabled>🚫 موجود نیست</button>';
+  }
+  c.innerHTML = inner;
+  // show/hide notify box
+  const allUnavail = ![...document.querySelectorAll('#gemsGrid .gem-card')].some(x=>x.classList.contains('available'));
+  document.getElementById('notifyBox').style.display = allUnavail ? 'block' : 'none';
+  document.getElementById('gemSectionDesc').textContent = allUnavail ? 'موقتاً ناموجود — اطلاع‌رسانی بگیر 🌸' : 'ارزان‌ترین قیمت بازار، تحویل فوری بدون نیاز به پسورد 🌸';
+}
+
+// ── FIREBASE NOTIFY ──
+function submitNotify(){
+  const val = document.getElementById('notifyInput').value.trim();
+  if(!val) return;
+  const now = new Date();
+  const t = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  db.ref('notifications').push({value:val, time:t, date:now.toLocaleDateString('fa-IR')});
+  document.getElementById('notifySuccess').classList.add('show');
+  document.getElementById('notifyInput').value='';
+}
+
+// ── CHAT ──
+const chatSession = (()=>{ let s=localStorage.getItem('sg_sess'); if(!s){s='u_'+Math.random().toString(36).substr(2,8);localStorage.setItem('sg_sess',s);} return s; })();
+let chatOpen=false, chatMode='bot';
+
+const FAQ=[
+  {keys:['جم','gem','الماس','شارژ'],q:'جم چطور شارژ میشه؟',a:'بعد از پرداخت آیدی فری فایرت رو بفرست — ظرف ۵ دقیقه شارژ میشه 💎'},
+  {keys:['قیمت','چنده','هزینه','تومان'],q:'قیمت‌ها چنده؟',a:'۱۰۰ جم = ۷۸ تومان | ۲۰۰ جم = ۱۲۰ تومان | VPN از ۱۷۵ تومان 💕'},
+  {keys:['vpn','کانفیگ','پروکسی','گیمینگ','پینگ'],q:'VPN چطور کار میکنه؟',a:'کانفیگ بعد از سفارش ارسال میشه — پینگ کاهش میده و روی همه اپراتورها کار میکنه ⚡'},
+  {keys:['تحویل','زمان','وقت','چقدر'],q:'تحویل چقدر طول میکشه؟',a:'جم زیر ۵ دقیقه | VPN چند ساعت 🚀'},
+  {keys:['پسورد','رمز','امنیت'],q:'به پسورد نیاز دارید؟',a:'نه! فقط آیدی فری فایر کافیه 🔒'},
+  {keys:['موجود','ناموجود','کی'],q:'جم‌ها کی موجود میشن؟',a:'با زنگوله ثبت کن تا خبرت کنیم 🔔'},
+  {keys:['تضمین','ضمانت','برگشت'],q:'ضمانت برگشت وجه دارید؟',a:'بله! ۱۰۰٪ تضمین داریم 💯'},
+  {keys:['اپراتور','ایرانسل','همراه','رایتل'],q:'VPN برای کدوم اپراتورا کار میکنه؟',a:'همه اپراتورها — ایرانسل، همراه اول، رایتل، شاتل و... 📶'},
+];
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  const box=document.getElementById('chatBox'),fab=document.getElementById('chatFab');
+  if(chatOpen){
+    box.classList.add('open'); fab.textContent='✕'; fab.style.fontSize='.9rem';
+    document.getElementById('chatBadge').classList.remove('show');
+    renderChat();
+  } else {
+    box.classList.remove('open'); fab.textContent='💬'; fab.style.fontSize='1.5rem';
+  }
+}
+
+function setMode(m){
+  chatMode=m;
+  document.getElementById('btnBot').className='mode-btn '+(m==='bot'?'active-mode':'inactive-mode');
+  document.getElementById('btnHuman').className='mode-btn '+(m==='human'?'active-mode':'inactive-mode');
+  document.getElementById('chatInputArea').className='chat-input-area'+(m==='human'?' show':'');
+  renderChat();
+  if(m==='human') setTimeout(()=>document.getElementById('chatTxtIn').focus(),200);
+}
+
+function renderChat(){
+  const el=document.getElementById('chatMsgs');
+  if(chatMode==='bot'){
+    const bmsgs=JSON.parse(sessionStorage.getItem('sg_bmsgs')||'[]');
+    if(!bmsgs.length){
+      el.innerHTML=`<div style="text-align:center;padding:10px 4px">
+        <div style="font-size:2rem;margin-bottom:8px">🤖</div>
+        <div style="font-size:.8rem;color:var(--muted);margin-bottom:12px;line-height:1.6">سلام! من دستیار Stargirlshop هستم 💕<br>سوالت رو انتخاب کن یا تایپ کن:</div>
+        <div class="faq-grid">${FAQ.map((f,i)=>`<button class="faq-btn" onclick="botAns(${i})">${f.q}</button>`).join('')}</div>
+      </div>`;
+    } else {
+      el.innerHTML=bmsgs.map(m=>`<div class="msg-b ${m.r?'msg-bot':'msg-user'}">
+        ${m.r?'<span class="msg-who">🤖 دستیار</span>':''}${m.t}</div>`).join('') +
+        `<div style="text-align:center;margin-top:10px;display:flex;gap:6px;justify-content:center">
+          <button onclick="resetBot()" class="faq-btn" style="flex:1">↩ سوال دیگه</button>
+        </div>`;
+    }
+  } else {
+    // human - listen to Firebase
+    el.innerHTML='<div style="text-align:center;padding:12px;color:var(--muted);font-size:.78rem">💬 چت با ادمین — پیام بفرست</div>';
+    db.ref('chats/'+chatSession+'/messages').orderByChild('time').limitToLast(50).once('value',snap=>{
+      const msgs=[];
+      snap.forEach(c=>msgs.push(c.val()));
+      if(msgs.length){
+        el.innerHTML=msgs.map(m=>`<div class="msg-b ${m.isAdmin?'msg-admin':'msg-user'}">
+          ${m.isAdmin?'<span class="msg-who">🌸 پشتیبانی</span>':''}${m.text}
+          <div class="msg-time">${m.time||''}</div></div>`).join('');
+        el.scrollTop=el.scrollHeight;
+      } else {
+        el.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-size:.8rem">پیامت رو بنویس، ادمین جواب میده 💕</div>';
+      }
+    });
+  }
+  el.scrollTop=el.scrollHeight;
+}
+
+function botAns(i){
+  const f=FAQ[i];
+  const msgs=JSON.parse(sessionStorage.getItem('sg_bmsgs')||'[]');
+  msgs.push({t:f.q,r:false},{t:f.a,r:true});
+  sessionStorage.setItem('sg_bmsgs',JSON.stringify(msgs));
+  renderChat();
+}
+
+function resetBot(){ sessionStorage.removeItem('sg_bmsgs'); renderChat(); }
+
+function sendMsg(){
+  const txt=document.getElementById('chatTxtIn').value.trim(); if(!txt) return;
+  if(chatMode==='bot'){
+    const lower=txt.toLowerCase();
+    const match=FAQ.find(f=>f.keys.some(k=>lower.includes(k)||txt.includes(k)));
+    const msgs=JSON.parse(sessionStorage.getItem('sg_bmsgs')||'[]');
+    msgs.push({t:txt,r:false});
+    msgs.push({t:match?match.a:'متأسفم جواب ندارم 😅 با ادمین صحبت کن!',r:true});
+    sessionStorage.setItem('sg_bmsgs',JSON.stringify(msgs));
+    document.getElementById('chatTxtIn').value=''; renderChat(); return;
+  }
+  const name=document.getElementById('chatNameIn').value.trim()||'کاربر';
+  const now=new Date(), t=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  db.ref('chats/'+chatSession+'/messages').push({text:txt,name,time:t,isAdmin:false,readByAdmin:false});
+  db.ref('chats/'+chatSession+'/meta').set({name,lastMsg:txt,lastTime:t,session:chatSession});
+  document.getElementById('chatTxtIn').value='';
+  setTimeout(renderChat,300);
+}
+
+// Listen for admin replies
+db.ref('chats/'+chatSession+'/messages').on('child_added',snap=>{
+  const m=snap.val();
+  if(m&&m.isAdmin){
+    if(!chatOpen) document.getElementById('chatBadge').classList.add('show');
+    else if(chatMode==='human') renderChat();
+  }
+});
+
+document.addEventListener('click',e=>{
+  if(chatOpen&&!document.getElementById('chatWidget').contains(e.target)) toggleChat();
+});
+
+// ── MODALS ──
+const modals={
+  gem100:{icon:'💎',title:'۱۰۰ جم فری فایر',price:'۷۸ تومان',desc:'خرید ۱۰۰ جم فری فایر با تحویل آنی 🌸',steps:['پرداخت را انجام دهید','آیدی فری فایر را ارسال کنید','جم ظرف ۵ دقیقه شارژ میشه ✨']},
+  gem200:{icon:'💎💎',title:'۲۰۰ جم فری فایر',price:'۱۲۰ تومان',desc:'خرید ۲۰۰ جم — بهترین ارزش! 💖',steps:['پرداخت را انجام دهید','آیدی فری فایر را ارسال کنید','جم ظرف ۵ دقیقه شارژ میشه ✨']},
+  vpn_n5:{icon:'⭐',title:'پک نرمال 5G',price:'۱۷۵ تومان',desc:'۵ گیگ نرمال | مناسب استفاده روزانه',steps:['با تلگرام پیام بدید','مشخصات دستگاه را بفرستید','کانفیگ دریافت کنید 💌']},
+  vpn_n10:{icon:'⭐',title:'پک نرمال 10G',price:'۲۸۰ تومان',desc:'۱۰ گیگ نرمال | پرفروش‌ترین پک',steps:['با تلگرام پیام بدید','مشخصات دستگاه را بفرستید','کانفیگ دریافت کنید 💌']},
+  vpn_n20:{icon:'⭐',title:'پک نرمال 20G',price:'۴۰۰ تومان',desc:'۲۰ گیگ نرمال | بیشترین صرفه',steps:['با تلگرام پیام بدید','مشخصات دستگاه را بفرستید','کانفیگ دریافت کنید 💌']},
+  vpn_g10:{icon:'🎮',title:'پک گیمینگ 10G',price:'۲۹۰ تومان',desc:'۱۰ گیگ گیمینگ | پینگ پایین | بهینه برای فری فایر',steps:['با تلگرام پیام بدید','مشخصات دستگاه را بفرستید','کانفیگ دریافت کنید 💌']},
+  vpn_g20:{icon:'🎮',title:'پک گیمینگ 20G',price:'۵۸۰ تومان',desc:'۲۰ گیگ گیمینگ | پینگ پایین | بهینه برای فری فایر',steps:['با تلگرام پیام بدید','مشخصات دستگاه را بفرستید','کانفیگ دریافت کنید 💌']},
+  vpn_p5:{icon:'🎧',title:'پک پروکسی 5G',price:'۱۸۰ تومان',desc:'۵ گیگ پروکسی پرسرعت',steps:['با تلگرام پیام بدید','مشخصات دستگاه را بفرستید','کانفیگ دریافت کنید 💌']},
+  vpn_p10:{icon:'🎧',title:'پک پروکسی 10G',price:'۳۰۰ تومان',desc:'۱۰ گیگ پروکسی پرسرعت',steps:['با تلگرام پیام بدید','مشخصات دستگاه را بفرستید','کانفیگ دریافت کنید 💌']},
+  vpn_p15:{icon:'🎧',title:'پک پروکسی 15G',price:'۴۰۰ تومان',desc:'۱۵ گیگ پروکسی | بیشترین حجم',steps:['با تلگرام پیام بدید','مشخصات دستگاه را بفرستید','کانفیگ دریافت کنید 💌']},
+};
+function openModal(k){
+  const d=modals[k]; if(!d) return;
+  document.getElementById('modalBody').innerHTML=`
+    <div style="font-size:3rem;margin-bottom:12px">${d.icon}</div>
+    <h3>${d.title}</h3><p>${d.desc}</p>
+    <div class="modal-price">${d.price}</div>
+    <div class="modal-steps">${d.steps.map((s,i)=>`<div class="modal-step"><span>${s}</span><div class="step-num">${i+1}</div></div>`).join('')}</div>
+    <a href="https://t.me/THE_STARSHOP" target="_blank" class="btn-primary" style="width:100%;justify-content:center;display:flex;text-decoration:none">💌 ثبت سفارش در تلگرام</a>`;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow=''; }
+</script>
+</body>
+</html>
